@@ -1,0 +1,43 @@
+services:
+  jira:
+    image: atlassian/jira-software:latest
+    container_name: jira
+    ports:
+      - "9080:8080"
+    environment:
+      - ATL_JDBC_URL=jdbc:postgresql://db/jiradb
+      - ATL_JDBC_USER=jirauser
+      - ATL_JDBC_PASSWORD=strongpassword
+      - ATL_DB_DRIVER=org.postgresql.Driver
+
+  bitbucket:
+    image: atlassian/bitbucket-server:latest
+    container_name: bitbucket
+    ports:
+      - "7990:7990"
+      - "7999:7999"
+    environment:
+      - BITBUCKET_HOME=/var/atlassian/application-data/bitbucket
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      - POSTGRES_DB=jiradb
+      - POSTGRES_USER=jirauser
+      - POSTGRES_PASSWORD=strongpassword
+    ports:
+      - "5432:5432"
+
+  nginx_jira:
+    image: nginx:alpine
+    ports:
+      - "9443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs
+
+networks:
+  default:
+    external:
+      name: shared_net

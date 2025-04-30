@@ -1,0 +1,20 @@
+services:
+  semgrep:
+    image: returntocorp/semgrep:latest
+    container_name: semgrep
+    volumes:
+      - ./code:/code
+      - ./semgrep_output:/semgrep_output
+      - ./semgrep_run.sh:/semgrep_run.sh
+    working_dir: /code
+    command: sh /semgrep_run.sh
+    environment:
+      DEFECTDOJO_API_KEY: 77b73c92479c53e6e1256f95b85c778454288627
+      DEFECTDOJO_ENGAGEMENT_ID: 1
+      DEFECTDOJO_URL: http://nginx:8080
+
+networks:
+  default:
+    external:
+      name: shared_net
+
