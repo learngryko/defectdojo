@@ -21,9 +21,9 @@ curl -X POST \
   -F "scan_type=Semgrep JSON Report" \
   -F "active=true" \
   -F "verified=true" \
-  -F "close_old_findings=false" \
-  -F "push_to_jira=true" \
   $DEFECTDOJO_URL/api/v2/import-scan/
 
 
 echo "[*] Done!"
+  # -F "close_old_findings=false" \
+  # -F "push_to_jira=true" \
